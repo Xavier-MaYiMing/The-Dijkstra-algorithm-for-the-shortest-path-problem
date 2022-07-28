@@ -16,7 +16,7 @@
 
 #### Example
 
-![image-20220704083123627](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220704083123627.png)
+![image](https://github.com/Xavier-MaYiMing/The-Dijkstra-algorithm-for-the-shortest-path-problem/blob/main/SPP_example.png)
 
 #### Dijkstra (one-to-one version)
 
