@@ -53,18 +53,17 @@ if __name__ == '__main__':
         3: {0: 67, 2: 32, 4: 54},
         4: {1: 52, 2: 52, 3: 54}
     }
-    source = 0
-    print(main(test_network, source))
+    s = 0
+    d = 4
+    print(main(test_network, s, d))
 ```
 
 ##### Output: 
 
 ```python
 {
-    1: {'path': [0, 1], 'length': 62}, 
-    2: {'path': [0, 2], 'length': 44}, 
-    3: {'path': [0, 3], 'length': 67}, 
-    4: {'path': [0, 2, 4], 'length': 96},
+    'path': [0, 2, 4], 
+    'length': 96
 }
 ```
 
