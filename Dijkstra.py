@@ -1,74 +1,59 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2022/7/1 9:35
+# @Time    : 2023/5/13 16:14
 # @Author  : Xavier Ma
-# @Email   : xavier_mayiming.com
+# @Email   : xavier_mayiming@163.com
 # @File    : Dijkstra.py
-# @Statement : The Dijkstra's algorithm (with Priority queue)
-# @Reference : The pseudocode on wikipedia
-import copy
-import heapq
+# @Statement : The Dijkstra's algorithm for the shortest path problem (SPP)
+# @Reference : Dijkstra E W. A note on two problems in connexion with graphs[M]//Edsger Wybe Dijkstra: His Life, Work, and Legacy. 2022: 287-290.
+from numpy import inf
+from pqdict import PQDict
 
 
-def find_neighbor(network):
-    """
-    Find the neighbor of each node
-    :param network:
-    :return: {node 1: [the neighbor nodes of node 1], ...}
-    """
-    nn = len(network)
+def find_neighbors(network):
+    # find the neighbors of each node
     neighbor = []
-    for i in range(nn):
+    for i in network.keys():
         neighbor.append(list(network[i].keys()))
     return neighbor
 
 
 def main(network, source, destination):
     """
-    The Dijkstra algorithm for the shortest path problem
+    The main function
     :param network: {node1: {node2: length, node3: length, ...}, ...}
     :param source: the source node
     :param destination: the destination node
     :return:
     """
-    nn = len(network)  # node number
-    neighbor = find_neighbor(network)
-    dist = []
-    prev = []
-    path = []
-    inf = 1e6
-    queue = []
-    for node in range(nn):
-        if node == source:
-            dist.append(0)
-            prev.append(-1)
-            path.append([source])
-        else:
-            dist.append(inf)
-            prev.append(-2)
-            path.append([])
-    heapq.heappush(queue, (dist[source], source))
-    searched_node = []
+    # Step 1. Initialization
+    neighbor = find_neighbors(network)
+    omega = []  # the list of explored labels
+    queue = PQDict({})  # priority queue
+    queue[source] = 0
+    p_list = {source: [source]}  # path label
+
+    # Step 2. The main loop
     while queue:
-        dis, temp_node = heapq.heappop(queue)
-        if temp_node == destination:
-            break
-        if temp_node not in searched_node:
-            searched_node.append(temp_node)
-            for node in neighbor[temp_node]:
-                alt = dis + network[temp_node][node]
-                if alt < dist[node]:
-                    dist[node] = alt
-                    prev[node] = temp_node
-                    temp_path = copy.deepcopy(path[temp_node])
-                    temp_path.append(node)
-                    path[node] = temp_path
-                    heapq.heappush(queue, (alt, node))
-    result = {
-        'path': path[destination],
-        'length': dist[destination],
-    }
-    return result
+
+        # Step 2.1. Select the label with the minimum length
+        (n1, length) = queue.popitem()
+        path = p_list[n1]
+        omega.append(n1)
+        if n1 == destination:
+            return {'path': path, 'length': length}
+
+        # Step 2.2. Extend labels
+        for n2 in neighbor[n1]:
+            if n2 not in omega:
+                temp_length = length + network[n1][n2]
+                if temp_length < queue.get(n2, inf):
+                    temp_path = path.copy()
+                    temp_path.append(n2)
+                    queue[n2] = temp_length
+                    p_list[n2] = temp_path
+
+    return {}
 
 
 if __name__ == '__main__':
@@ -79,6 +64,6 @@ if __name__ == '__main__':
         3: {0: 67, 2: 32, 4: 54},
         4: {1: 52, 2: 52, 3: 54}
     }
-    source = 0
-    destination = 4
-    print(main(test_network, source, destination))
+    s = 0
+    d = 4
+    print(main(test_network, s, d))
