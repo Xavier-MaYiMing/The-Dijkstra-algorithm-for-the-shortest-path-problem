@@ -12,9 +12,9 @@ from pqdict import PQDict
 
 def find_neighbors(network):
     # find the neighbors of each node
-    neighbor = []
+    neighbor = {}
     for i in network.keys():
-        neighbor.append(list(network[i].keys()))
+        neighbor[i] = list(network[i].keys())
     return neighbor
 
 
