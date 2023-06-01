@@ -2,6 +2,10 @@
 
 ##### Reference: Dijkstra E W. A note on two problems in connexion with graphs[M]//Edsger Wybe Dijkstra: His Life, Work, and Legacy. 2022: 287-290.
 
+##### m2mDijkstra.py solves the many-to-many shortest path problem (m2mSPP).
+
+##### The m2mSPP aims to find the shortest path from any source to any destination. 
+
 | Variables     | Meaning                                                      |
 | ------------- | ------------------------------------------------------------ |
 | network       | Dictionary, {node1: {node2: length, node3: length, ...}, ...} |
